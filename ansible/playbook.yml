@@ -1,0 +1,7 @@
+- name: Restart Nginx if down
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Restart nginx container
+      command: docker restart nginx
+
