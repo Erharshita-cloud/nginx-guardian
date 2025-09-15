@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: demo-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  guardian:
+    build: ./webhook
+    container_name: nginx-guardian
+    depends_on:
+      - nginx
+    restart: unless-stopped
+    ports:
+      - "9101:9101"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9101/metrics"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanager
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    ports:
+      - "9093:9093"
