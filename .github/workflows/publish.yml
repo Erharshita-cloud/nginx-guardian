@@ -28,5 +28,6 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/nginx-guardian:${{ github.ref_name }}
-            ghcr.io/${{ github.repository_owner }}/nginx-guardian:latest
+           ghcr.io/erharshita-cloud/nginx-guardian:v0.1.0
+           ghcr.io/erharshita-cloud/nginx-guardian:latest
+
