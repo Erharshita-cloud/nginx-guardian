@@ -31,3 +31,15 @@ cp .env.example .env
 
 # Start Nginx + Guardian + Prometheus + Alertmanager
 docker-compose up -d
+
+## 🐳 Run with Docker
+
+You can pull the latest Guardian image from GitHub Container Registry:
+
+```bash
+docker run -d \
+  --name nginx-guardian \
+  -p 8080:80 \
+  -p 9101:9101 \
+  ghcr.io/erharshita-cloud/nginx-guardian:latest
+
